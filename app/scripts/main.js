@@ -75,5 +75,206 @@
       });
   }
 
-  // Your custom JavaScript goes here
+  /**
+   * CopyBacon class used to copy image and insert it into the DOM
+   * @class
+   * @constructor
+   * @public
+   */
+  class CopyBacon {
+    /**
+     * @constructor
+     * @return {void}
+     */
+    constructor() {
+      if (!this.setVars()) return;
+
+      this.setEvents();
+    }
+
+    /**
+     * Init vars.
+     * @return {boolean} If variables has been found
+     */
+    setVars() {
+      this.button = document.querySelector('[data-bacon-button]');
+
+      if (!this.button) return false;
+
+      this.wrapper = document.querySelector('[data-bacon-wrapper]');
+      this.imageWrapper = document.querySelector('[data-bacon-image]');
+      this.image = this.imageWrapper.querySelector('img');
+      this.config = {
+        imageSrc: this.image.src,
+      };
+
+      return true;
+    }
+
+    /**
+     * @return {void} Assigns events to found DOM elements
+     */
+    setEvents() {
+      this.button.addEventListener(
+        'click',
+        this.copyImage.bind(this)
+      );
+    }
+
+    /**
+     * @return {void} Copy image wrapper and create new image into it
+     */
+    copyImage() {
+      const container = this.imageWrapper.cloneNode();
+      const image = document.createElement('img');
+      const { imageSrc } = this.config;
+
+      image.src = imageSrc;
+      image.style = `
+        width: 100%; height: 100%;
+      `;
+
+      container.appendChild(image);
+
+      this.wrapper.appendChild(container);
+    }
+  }
+
+  /**
+   * Core class used to initialize all javascript
+   * @class
+   * @constructor
+   * @public
+   */
+  class Form {
+    /**
+     * @constructor
+     * @return {void}
+     */
+    constructor() {
+      if (!this.setVars()) return;
+
+      this.setEvents();
+    }
+
+    /**
+     * Init vars.
+     * @return {boolean} If variables has been found
+     */
+    setVars() {
+      this.section = document.querySelector('[data-form-section]');
+
+      if (!this.section) return false;
+
+      this.inputs = this.section.querySelectorAll('[data-input]');
+
+      this.regex = {
+        text: /^[a-zA-Z0-9]+/i,
+        email: /\S+@\S+\.\S+/g,
+        code: /^[0-9]+$/g,
+        card: /^[0-9]{16}$/g,
+        date: /^[0-9]{4}$/g,
+      };
+      this.classes = {
+        error: 'input--error',
+        correct: 'input--correct',
+      };
+
+      return true;
+    }
+
+    /**
+     * @return {void} Assigns events to found DOM elements
+     */
+    setEvents() {
+      [...this.inputs].forEach((input) => {
+        input.addEventListener(
+          'input',
+          this.validateInput.bind(this)
+        );
+      });
+    }
+
+    /**
+     * @return {void} Assigns validation to input
+     */
+    validateInput({ target }) {
+      const { error, correct } = this.classes;
+      const type = target.getAttribute('data-input-type');
+      let { value } = target;
+
+      switch (type) {
+      case 'card':
+        target.value = this.reformatInputValue(value, type);
+        value = value.replace(/\s-\s/g, '');
+
+        break;
+      case 'date':
+        target.value = this.reformatInputValue(value, type);
+        value = target.value.replace(/\s\/\s/g, '');
+
+        break;
+      }
+
+      if (value.match(this.regex[type])) {
+        target.parentElement.classList.remove(error);
+        target.parentElement.classList.add(correct);
+      } else {
+        target.parentElement.classList.remove(correct);
+        target.parentElement.classList.add(error);
+      }
+    }
+
+    /**
+     * @param {string} value value to be changed
+     * @param {string} type input type
+     * @return {string} Reformats card number
+     */
+    reformatInputValue(value, type) {
+      switch (type) {
+      case 'card':
+        const list = value.replace(/\s-\s/g, '').match(/.{1,4}/g);
+
+        return list.join(' - ');
+      case 'date':
+        value = value.replace(/\D/g, '');
+        const length = value.length;
+
+        if (!length) return 'MM / YY';
+
+        let startValue = ['M', 'M', 'Y', 'Y'];
+        for (let i = 0; i < length; i++) {
+          startValue[i] = value[i];
+        }
+        startValue = startValue.join('');
+
+        let [month, year] = startValue.replace(/\s\/\s/g, '').match(/.{1,2}/g);
+
+        if (month > 12) {
+          month = 12;
+        }
+
+        return [month, year].join(' / ');
+      }
+    }
+  }
+
+
+  /**
+   * Core class used to initialize all javascript
+   * @class
+   * @constructor
+   * @public
+   */
+  class Core {
+    /**
+     * @return {void}
+     */
+    constructor() {
+      new CopyBacon();
+      new Form();
+    }
+  }
+
+  new Core();
 })();
