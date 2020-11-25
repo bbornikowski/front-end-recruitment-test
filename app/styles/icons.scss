@@ -1,0 +1,20 @@
+@import './mixins/mixins.scss';
+
+@font-face {
+  font-family: 'icomoon';
+  src: url('../../icons/icomoon.eot');
+  src:
+    url('../../icons/icomoon.woff') format('woff'),
+    url('../../icons/icomoon.eot#iefix') format('embedded-opentype'),
+    url('../../icons/icomoon.ttf') format('truetype'),
+    url('../../icons/icomoon.svg#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@each $icon, $content in $icons {
+  .icon-#{$icon}::before {
+    @include icomoon($icon);
+  }
+}

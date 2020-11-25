@@ -1,0 +1,72 @@
+.input { $p: &;
+  box-sizing: border-box;
+  display: flex;
+  flex-basis: 50%;
+  flex-grow: 1;
+  margin-bottom: 24px;
+  padding: 0 8px;
+  position: relative;
+
+  &--full {
+    flex-basis: 100%;
+    width: 100%;
+  }
+
+  i {
+    font-size: 36px;
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &__questionMark {
+    border: 1px solid #9b9ba6;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 18px;
+    height: 18px;
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    width: 18px;
+  }
+
+  &__placeholder {
+    color: #000;
+    font-size: 14px;
+    font-weight: 500;
+    left: 20px;
+    pointer-events: none;
+    position: absolute;
+    top: 14px;
+    transition: .3s;
+  }
+
+  &__field {
+    background-color: #fff;
+    border-radius: 4px;
+    border: 0;
+    box-shadow: 0 2px 0px 0 #dedede;
+    color: #9b9ba6;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 17px;
+    padding: 22px 12px 10px;
+    width: 100%;
+
+    &:valid,
+    &:focus {
+      outline: 0;
+
+      & + #{$p}__placeholder {
+        font-size: 12px;
+        top: 0;
+      }
+    }
+  }
+}
