@@ -32,7 +32,7 @@
   }
 
   &__informationBlock {
-    counter-increment: my-awesome-counter;
+    counter-increment: heading-counter;
     display: flex;
     flex-wrap: wrap;
     list-style-type: none;
@@ -73,7 +73,7 @@
 
     &::before {
       color: #fff;
-      content: counter(my-awesome-counter);
+      content: counter(heading-counter);
       font-size: 16px;
       font-weight: 500;
       left: -31px;

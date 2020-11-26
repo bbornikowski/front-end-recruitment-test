@@ -260,6 +260,8 @@
 
       if (!this.section) return false;
 
+      this.button = this.section.querySelector('[data-form-button]');
+      this.select = this.section.querySelectorAll('[data-select-item]');
       this.inputs = this.section.querySelectorAll('[data-input]');
 
       this.regex = {
@@ -270,6 +272,7 @@
         date: /^[0-9]{4}$/g,
         phone: /^[0-9]{6,}$/g,
       };
+      this.formData = {};
       this.classes = {
         error: 'input--error',
         correct: 'input--correct',
@@ -282,20 +285,101 @@
      * @return {void} Assigns events to found DOM elements
      */
     setEvents() {
+      this.button.addEventListener(
+        'click',
+        this.submitForm.bind(this)
+      );
+
+      [...this.select].forEach((item) => {
+        item.addEventListener(
+          'click',
+          ({ target }) => this.validateInput(
+            target.parentElement.parentElement.querySelector('input')
+          )
+        );
+      });
+
       [...this.inputs].forEach((input) => {
+        this.buildFormData(input);
+
         input.addEventListener(
           'input',
-          this.validateInput.bind(this)
+          ({ target }) => this.validateInput(target)
         );
       });
     }
 
     /**
+     * @param {Event} e
+     * @return {boolean} Validates and submits form
+     */
+    submitForm(e) {
+      e.preventDefault();
+
+      let formValid = true;
+      const keys = Object.keys(this.formData);
+      const keysLength = keys.length;
+
+      for (let i = 0; i < keysLength; i++) {
+        const { isValid } = this.formData[keys[i]];
+
+        if (!isValid) {
+          formValid = false;
+          this.validateInput(
+            this.findInput(keys[i])
+          );
+        }
+      }
+
+      if (!formValid) return false;
+
+      const data = {};
+      for (let i = 0; i < keysLength; i++) {
+        data[keys[i]] = this.formData[keys[i]].value;
+      }
+
+      /*
+        Current project setup does not allow for modern javascript syntax
+        so I have abstained from implementing async/await function for API
+        call and always returns true
+      */
+
+      return true;
+    }
+
+    /**
+     * @param {string} name Name attribute of the input
+     * @return {HTMLInputElement | null} Finds input to validate
+     */
+    findInput(name) {
+      return [...this.inputs].find((input) => {
+        return input.getAttribute('name') === name;
+      }) || null;
+    }
+
+    /**
+     * @param {HTMLInputElement} item
+     * @return {void} Creates form data from inputs
+     */
+    buildFormData(item) {
+      const name = item.getAttribute('name');
+
+      this.formData[name] = {
+        isValid: false,
+        value: '',
+      };
+    }
+
+    /**
+     * @param {HTMLInputElement | null} target
      * @return {void} Assigns validation to input
      */
-    validateInput({ target }) {
+    validateInput(target) {
+      if (!target) return false;
+
       const { error, correct } = this.classes;
       const type = target.getAttribute('data-input-type');
+      const name = target.getAttribute('name');
       let { value } = target;
 
       switch (type) {
@@ -316,13 +400,19 @@
         break;
       }
 
-      if (value.match(this.regex[type])) {
+      const isValid = value.match(this.regex[type]);
+      if (isValid) {
         target.parentElement.classList.remove(error);
         target.parentElement.classList.add(correct);
       } else {
         target.parentElement.classList.remove(correct);
         target.parentElement.classList.add(error);
       }
+
+      this.formData[name] = {
+        isValid: !!isValid,
+        value,
+      };
     }
 
     /**
@@ -334,6 +424,8 @@
       switch (type) {
       case 'card':
         const list = value.replace(/\s-\s/g, '').match(/.{1,4}/g);
+
+        if (!list) return '';
 
         return list.join(' - ');
 

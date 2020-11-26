@@ -22,7 +22,7 @@
   }
 
   &--error {
-    #{$p}__field {
+    input {
       border: 1px solid #ed1a3b;
     }
 
@@ -32,7 +32,7 @@
   }
 
   &--correct {
-    #{$p}__field {
+    input {
       border: 1px solid #6bd400;
     }
 
