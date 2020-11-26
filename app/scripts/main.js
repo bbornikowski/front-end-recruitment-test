@@ -367,12 +367,14 @@
         switch (phoneLength) {
         case 4:
           return value[3].length === 1
-            ? `(${value[0]}) ${value[1]} ${value[2].substring(0, 2)}-${value[2].substring(2, 3) + value[3]}`
+            ? `(${value[0]}) ${value[1]} ${value[2].substring(0, 2)}${''
+            }-${value[2].substring(2, 3) + value[3]}`
             : `(${value[0]}) ${value[1]} ${value[2]}-${value[3]}`;
 
         case 3:
           return value[2].length === 3
-            ? `(${value[0]}) ${value[1]} ${value[2].substring(0, 2)}-${value[2].substring(2, 3)}`
+            ? `(${value[0]}) ${value[1]}${' '
+            }${value[2].substring(0, 2)}-${value[2].substring(2, 3)}`
             : `(${value[0]}) ${value[1]} ${value[2]}`;
 
         case 2:
