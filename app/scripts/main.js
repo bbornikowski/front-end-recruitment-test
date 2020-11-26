@@ -385,7 +385,13 @@
       switch (type) {
       case 'card':
         target.value = this.reformatInputValue(value, type);
-        value = value.replace(/\s-\s/g, '');
+        value = value.replace(/\s-\s/g, '').match(/.{1,4}/g);
+
+        if (value.length > 4) {
+          value = value.splice(0, 4);
+        }
+
+        value = value.join('');
 
         break;
       case 'date':
