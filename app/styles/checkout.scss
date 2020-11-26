@@ -1,11 +1,12 @@
 @import './mixins/mixins.scss';
+@import './mixins/colors.scss';
 
 .checkout {
   box-sizing: border-box;
   display: flex;
   margin-left: auto;
   margin-right: auto;
-  max-width: 940px;
+  max-width: 920px;
   padding-bottom: 48px;
   width: 100%;
 
@@ -19,10 +20,9 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 0;
-    margin-right: 12px;
     margin-top: 0;
     padding: 0 20px;
-    width: 70%;
+    width: 65%;
     
     @include rwd('large-tablet') {
       margin-right: 0;
@@ -50,9 +50,9 @@
 
   &__heading {
     align-items: center;
-    color: #000;
+    color: $cBlack;
     display: flex;
-    font-size: 16px;
+    font-size: 13px;
     letter-spacing: -.85px;
     font-weight: 900;
     margin: 0 8px 24px 8px;
@@ -72,7 +72,7 @@
     }
 
     &::before {
-      color: #fff;
+      color: $cWhite;
       content: counter(heading-counter);
       font-size: 16px;
       font-weight: 500;
@@ -81,7 +81,7 @@
     }
 
     &::after {
-      background-color: #000;
+      background-color: $cBlack;
       border-radius: 50%;
       content: '';
       height: 24px;
@@ -98,17 +98,16 @@
   &__orderData {
     align-self: flex-start;
     box-sizing: border-box;
-    background-color: #fff;
+    background-color: $cWhite;
     border-radius: 4px;
-    box-shadow: 0 2px 0px 0 #dedede;
-    color: #000;
+    box-shadow: 0 2px 0px 0 $cGray02;
+    color: $cBlack;
     font-size: 14px;
     line-height: 21px;
-    margin-left: 12px;
     margin-top: 48px;
     padding: 12px 18px;
     position: relative;
-    width: 30%;
+    width: 35%;
 
     @include rwd('large-tablet') {
       align-self: center;
@@ -119,7 +118,7 @@
 
     &::before {
       content: '';
-      border: 1px dotted #ededed;
+      border: 1px dotted $cGray01;
       border-radius: 4px;
       height: calc(100% - 12px);
       left: 50%;
@@ -138,7 +137,7 @@
   }
 
   &__orderBlock {
-    border-bottom: 1px dashed #ededed;
+    border-bottom: 1px dashed $cGray01;
     margin-bottom: 0;
     margin-top: 6px;
     padding-bottom: 18px;
