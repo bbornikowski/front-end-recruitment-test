@@ -42,7 +42,7 @@
   }
 
   i,
-  &__questionMark {
+  &__toolTip {
     position: absolute;
     right: 24px;
     top: 15px;
@@ -52,7 +52,7 @@
     font-size: 36px;
   }
 
-  &__questionMark {
+  &__toolTip {
     border: 1px solid #9b9ba6;
     border-radius: 50%;
     cursor: pointer;
@@ -62,6 +62,33 @@
     height: 18px;
     text-align: center;
     width: 18px;
+    z-index: 1;
+
+    &:hover {
+      #{$p}__toolTipText {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+
+  &__toolTipText {
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 0px 0 #dedede;
+    color: #000;
+    font-size: 14px;
+    line-height: 17px;
+    left: 50%;
+    max-width: 380px;
+    opacity: 0;
+    padding: 12px 14px;
+    margin-top: 12px;
+    transform: translateX(-50%);
+    transition: opacity .3s, visibility .3s;
+    visibility: hidden;
+    width: 100vw;
+    z-index: 10;
   }
 
   &__placeholder {
