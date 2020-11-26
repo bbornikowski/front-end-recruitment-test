@@ -34,11 +34,15 @@
     }
   }
 
-  i {
-    font-size: 36px;
+  i,
+  &__questionMark {
     position: absolute;
     right: 24px;
     top: 15px;
+  }
+
+  i {
+    font-size: 36px;
   }
 
   &__questionMark {
@@ -49,10 +53,6 @@
     font-weight: 700;
     line-height: 18px;
     height: 18px;
-    position: absolute;
-    right: 24px;
-    top: 50%;
-    transform: translateY(-50%);
     text-align: center;
     width: 18px;
   }
@@ -71,7 +71,7 @@
   &__field {
     background-color: #fff;
     border-radius: 4px;
-    border: 0;
+    border: 1px solid transparent;
     box-shadow: 0 2px 0px 0 #dedede;
     color: #9b9ba6;
     font-size: 14px;

@@ -174,6 +174,7 @@
         code: /^[0-9]+$/g,
         card: /^[0-9]{16}$/g,
         date: /^[0-9]{4}$/g,
+        phone: /^[0-9]{6,}$/g,
       };
       this.classes = {
         error: 'input--error',
@@ -214,6 +215,11 @@
         value = target.value.replace(/\s\/\s/g, '');
 
         break;
+      case 'phone':
+        target.value = this.reformatInputValue(value, type);
+        value = value.replace(/\D/g, '');
+
+        break;
       }
 
       if (value.match(this.regex[type])) {
@@ -236,14 +242,15 @@
         const list = value.replace(/\s-\s/g, '').match(/.{1,4}/g);
 
         return list.join(' - ');
+
       case 'date':
         value = value.replace(/\D/g, '');
-        const length = value.length;
+        const dateLength = value.length;
 
-        if (!length) return 'MM / YY';
+        if (!dateLength) return 'MM / YY';
 
         let startValue = ['M', 'M', 'Y', 'Y'];
-        for (let i = 0; i < length; i++) {
+        for (let i = 0; i < dateLength; i++) {
           startValue[i] = value[i];
         }
         startValue = startValue.join('');
@@ -255,6 +262,33 @@
         }
 
         return [month, year].join(' / ');
+
+      case 'phone':
+        value = value.replace(/\D/g, '');
+        if (value.length > 10) return value;
+
+        value = value.match(/.{1,3}/g);
+        const phoneLength = value instanceof Array ? value.length: null;
+
+        switch (phoneLength) {
+        case 4:
+          return value[3].length === 1
+            ? `(${value[0]}) ${value[1]} ${value[2].substring(0, 2)}-${value[2].substring(2, 3) + value[3]}`
+            : `(${value[0]}) ${value[1]} ${value[2]}-${value[3]}`;
+
+        case 3:
+          return value[2].length === 3
+            ? `(${value[0]}) ${value[1]} ${value[2].substring(0, 2)}-${value[2].substring(2, 3)}`
+            : `(${value[0]}) ${value[1]} ${value[2]}`;
+
+        case 2:
+          return `(${value[0]}) ${value[1]}`;
+
+        case 1:
+          return `(${value[0]})`;
+        }
+
+        return '';
       }
     }
   }
