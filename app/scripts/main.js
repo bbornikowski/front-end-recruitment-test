@@ -423,9 +423,13 @@
     reformatInputValue(value, type) {
       switch (type) {
       case 'card':
-        const list = value.replace(/\s-\s/g, '').match(/.{1,4}/g);
+        let list = value.replace(/\s-\s/g, '').match(/.{1,4}/g);
 
         if (!list) return '';
+
+        if (list.length > 4) {
+          list = list.splice(0, 4);
+        }
 
         return list.join(' - ');
 
