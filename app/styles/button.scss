@@ -1,0 +1,30 @@
+@import './mixins/colors.scss';
+
+.button {
+  align-items: center;
+  background-color: $cGreen01;
+  border: 1px solid $cGreen01;
+  border-radius: 4px;
+  box-sizing: border-box;
+  color: $cWhite;
+  cursor: pointer;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  margin: 12px 8px 0;
+  padding: 14px 24px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: background-color .3s;
+  width: 100%;
+
+  &::before {
+    font-weight: 700;
+    margin-right: 8px;
+  }
+
+  &:hover {
+    background-color: $cWhite;
+    color: $cGreen01;
+  }
+}

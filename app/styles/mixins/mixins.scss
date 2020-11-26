@@ -1,0 +1,81 @@
+$icons : (
+  'visa': '\e900',
+  'chevron-down': '\e907',
+  'lock': '\e901',
+  'shopping-cart': '\e902'
+);
+
+@mixin icomoon($icon) {
+  @if map-has-key($icons, $icon) {
+    & {
+      content: inspect(map-get($icons, $icon)) !important;
+      font-family: 'icomoon' !important;
+      speak: none;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  } @else {
+    @warn 'Unfortunately, not found icon called `#{$icon}`!';
+  }
+}
+
+$breakpointsDown : (
+  'phone'          : '(max-width:  360px)',
+  'large-phone'    : '(max-width:  480px)',
+  'small-tablet'   : '(max-width:  600px)',
+  'tablet'         : '(max-width:  768px)',
+  'large-tablet'   : '(max-width: 1024px)',
+  'laptop'         : '(max-width: 1280px)',
+  'laptop-h'       : '(max-width: 1280px)',
+  'large-laptop'   : '(max-width: 1366px)',
+  'ultra'          : '(max-width: 1600px)'
+);
+
+$breakpointsUp   : (
+  'phone'        : '(min-width:  361px)',
+  'large-phone'  : '(min-width:  481px)',
+  'small-tablet' : '(min-width:  601px)',
+  'tablet'       : '(min-width:  769px)',
+  'large-tablet' : '(min-width: 1025px)',
+  'laptop'       : '(min-width: 1281px)',
+  'large-laptop' : '(min-width: 1367px)',
+  'ultra'        : '(min-width: 1599px)'
+);
+
+$mobileFirst : false !default;
+@mixin rwd($breakpoint, $breakpointUp : $mobileFirst) {
+
+  @if ($breakpointUp != false) {
+
+    @if map-has-key($breakpointsUp, $breakpoint) {
+
+      @media #{(map-get($breakpointsUp, $breakpoint))} {
+        @content;
+      }
+
+    } @else {
+
+      @error 'Unfortunately, not found breakpoint called `#{$breakpoint}`!';
+
+    }
+
+  } @else {
+
+    @if map-has-key($breakpointsDown, $breakpoint) {
+
+      @media #{(map-get($breakpointsDown, $breakpoint))} {
+        @content;
+      }
+
+    } @else {
+
+      @error 'Unfortunately, not found breakpoint called `#{$breakpoint}`!';
+
+    }
+
+  }
+}

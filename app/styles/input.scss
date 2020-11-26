@@ -1,0 +1,138 @@
+@import './mixins/mixins.scss';
+@import './mixins/colors.scss';
+
+.input { $p: &;
+  align-items: flex-start;
+  box-sizing: border-box;
+  display: flex;
+  flex-basis: 50%;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  padding: 0 8px;
+  position: relative;
+
+  @include rwd('large-phone') {
+    flex-basis: 100%;
+    width: 100%;
+  }
+
+  &--full {
+    flex-basis: 100%;
+    width: 100%;
+  }
+
+  &--error {
+    input {
+      border: 1px solid $cRed01;
+    }
+
+    #{$p}__message {
+      display: block;
+    }
+  }
+
+  &--correct {
+    input {
+      border: 1px solid $cGreen01;
+    }
+
+    #{$p}__message {
+      display: none;
+    }
+  }
+
+  i,
+  &__toolTip {
+    position: absolute;
+    right: 24px;
+    top: 15px;
+  }
+
+  i {
+    font-size: 36px;
+  }
+
+  &__toolTip {
+    border: 1px solid $cGray03;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 18px;
+    height: 18px;
+    text-align: center;
+    width: 18px;
+    z-index: 1;
+
+    &:hover {
+      #{$p}__toolTipText {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+
+  &__toolTipText {
+    background-color: $cWhite;
+    border-radius: 4px;
+    box-shadow: 0 2px 0px 0 $cGray02;
+    color: $cBlack;
+    font-size: 14px;
+    line-height: 17px;
+    left: 50%;
+    max-width: 380px;
+    opacity: 0;
+    padding: 12px 14px;
+    margin-top: 12px;
+    transform: translateX(-50%);
+    transition: opacity .3s, visibility .3s;
+    visibility: hidden;
+    width: 100vw;
+    z-index: 10;
+  }
+
+  &__placeholder {
+    color: $cBlack;
+    font-size: 14px;
+    font-weight: 600;
+    left: 20px;
+    pointer-events: none;
+    position: absolute;
+    top: 14px;
+    transition: .3s;
+  }
+
+  &__field {
+    background-color: $cWhite;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    box-shadow: 0 2px 0px 0 $cGray02;
+    color: $cGray03;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 17px;
+    padding: 22px 12px 10px;
+    transition: border .3s;
+    width: 100%;
+
+    &:valid,
+    &:focus {
+      outline: 0;
+
+      & + #{$p}__placeholder {
+        font-size: 12px;
+        top: 4px;
+      }
+    }
+  }
+
+  &__message {
+    color: $cRed01;
+    display: none;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: -16px;
+    margin-top: 10px;
+  }
+}
