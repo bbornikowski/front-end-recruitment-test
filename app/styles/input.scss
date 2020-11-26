@@ -1,3 +1,5 @@
+@import './mixins/mixins.scss';
+
 .input { $p: &;
   align-items: flex-start;
   box-sizing: border-box;
@@ -8,6 +10,11 @@
   margin-bottom: 24px;
   padding: 0 8px;
   position: relative;
+
+  @include rwd('large-phone') {
+    flex-basis: 100%;
+    width: 100%;
+  }
 
   &--full {
     flex-basis: 100%;

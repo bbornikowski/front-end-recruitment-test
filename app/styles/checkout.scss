@@ -1,3 +1,5 @@
+@import './mixins/mixins.scss';
+
 .checkout {
   box-sizing: border-box;
   display: flex;
@@ -7,12 +9,26 @@
   padding-bottom: 48px;
   width: 100%;
 
+  @include rwd('large-tablet') {
+    align-items: center;
+    flex-direction: column-reverse;
+  }
+
   &__information {
     counter-reset: heading-counter;
+    display: flex;
+    flex-direction: column;
     margin-bottom: 0;
     margin-right: 12px;
     margin-top: 0;
+    padding: 0 20px;
     width: 70%;
+    
+    @include rwd('large-tablet') {
+      margin-right: 0;
+      max-width: 680px;
+      width: 100%;
+    }
   }
 
   &__informationBlock {
@@ -21,6 +37,11 @@
     flex-wrap: wrap;
     list-style-type: none;
     margin: 0 -16px;
+
+    @include rwd('large-tablet') {
+      margin-left: 0;
+      margin-right: 0;
+    }
 
     & + & {
       margin-top: 24px;
@@ -38,6 +59,10 @@
     position: relative;
     text-transform: uppercase;
     width: 100%;
+
+    @include rwd('tablet') {
+      margin-left: 48px;
+    }
 
     &::before,
     &::after {
@@ -72,6 +97,7 @@
 
   &__orderData {
     align-self: flex-start;
+    box-sizing: border-box;
     background-color: #fff;
     border-radius: 4px;
     box-shadow: 0 2px 0px 0 #dedede;
@@ -83,6 +109,13 @@
     padding: 12px 18px;
     position: relative;
     width: 30%;
+
+    @include rwd('large-tablet') {
+      align-self: center;
+      margin: 0 0 48px 0;
+      max-width: 640px;
+      width: 100%;
+    }
 
     &::before {
       content: '';
