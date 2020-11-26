@@ -141,7 +141,101 @@
   }
 
   /**
-   * Core class used to initialize all javascript
+   * Select instance class that handles display of custom select value
+   * @class
+   * @constructor
+   * @public
+   */
+  class SelectInstance {
+    /**
+     * @constructor
+     * @param {HTMLDivElement} wrapper Custom select DOM Element
+     * @return {void}
+     */
+    constructor(wrapper) {
+      if (!this.setVars(wrapper)) return;
+
+      this.setEvents();
+    }
+
+    /**
+     * Init vars.
+     * @param {HTMLDivElement} wrapper Custom select DOM Element
+     * @return {boolean} If variables has been found
+     */
+    setVars(wrapper) {
+      this.select = wrapper;
+
+      if (!this.select) return false;
+
+      this.selectValue = this.select.querySelector('[data-select-value]');
+      this.selectItems = this.select.querySelectorAll('[data-select-item]');
+
+      return true;
+    }
+
+    /**
+     * @return {void} Assigns events to found DOM elements
+     */
+    setEvents() {
+      this.selectValue.addEventListener(
+        'keydown',
+        this.preventValue.bind(this)
+      );
+
+      [...this.selectItems].forEach((item) => {
+        item.addEventListener(
+          'click',
+          this.chooseValue.bind(this)
+        );
+      });
+    }
+
+    /**
+     * @return {void} Chooses value from select
+     */
+    chooseValue({ target }) {
+      const valueTrimmed = target
+        .innerHTML
+        .replace(/^(&nbsp;|\s)*/, '')
+        .replace(/(&nbsp;|\s)*$/, '');
+
+      this.selectValue.value = valueTrimmed;
+    }
+
+    /**
+     * @param {Event} e
+     * @return {void} Prevents user for inserting value into select
+     */
+    preventValue(e) {
+      e.preventDefault();
+    }
+  }
+
+  /**
+   * Select class that invokes the single select behaviour
+   * @class
+   * @constructor
+   * @public
+   */
+  class Select {
+    /**
+     * @constructor
+     * @return {void}
+     */
+    constructor() {
+      this.sections = document.querySelectorAll('[data-select]');
+      if (!this.sections.length) return;
+
+      this.sections.forEach((section) => {
+        new SelectInstance(section);
+      });
+    }
+  }
+
+
+  /**
+   * Form class to validate the checkout form
    * @class
    * @constructor
    * @public
@@ -305,6 +399,7 @@
      * @return {void}
      */
     constructor() {
+      new Select();
       new CopyBacon();
       new Form();
     }
